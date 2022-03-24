@@ -13,7 +13,7 @@
 
 
     <div class="my-3 p-3 bg-body rounded shadow-sm">
-        <p>Чтобы выйти нажмите <a href="valid/exit.php">здесь</a></p>
+
         <h6 class=" pb-2 mb-0">Услуги</h6>
 
         <?php
