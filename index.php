@@ -12,9 +12,12 @@
 <body>
 
 <?php require "blocks/header.php" ?>
+<?php
+$services_name = filter_var(trim($_POST['search']),
+    FILTER_SANITIZE_STRING); ?>
 <div class="container mt-4 d-flex justify-content-around">
     <form action="index.php" method="post" class="container  d-flex justify-content-around">
-        <input type="text" class="form-control" name="search" id="search" placeholder="Введите наименование услуги">
+        <input type="text" class="form-control" name="search" id="search" placeholder="Введите наименование услуги" value="<?= $services_name?>">
         <button class="btn btn-success" type="submit">Найти</button>
     </form>
 </div>
@@ -24,8 +27,7 @@
         <h6 class=" pb-2 mb-0">Услуги</h6>
 
         <?php
-        $services_name = filter_var(trim($_POST['search']),
-            FILTER_SANITIZE_STRING);
+
         $mysqli = new mysqli('localhost', 'root', '', 'register');
 
         if ($mysqli->connect_errno) {
@@ -39,7 +41,7 @@
                          users.name users_name
                     FROM services JOIN users 
                       ON services.user = users.id
-                    WHERE lower(`services`.`name`) like '%' || lower('$services_name')  || '%'  ";
+                    WHERE lower(`services`.`name`) like  lower('%$services_name%')  ";
 
         if ($services = $mysqli->query($query)) {
 
