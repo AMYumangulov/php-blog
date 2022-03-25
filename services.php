@@ -10,11 +10,11 @@
 </head>
 <body>
 <div class="container">
-
+    <?php require "blocks/header.php";?>
 
     <div class="my-3 p-3 bg-body rounded shadow-sm">
 
-        <h6 class=" pb-2 mb-0">Услуги</h6>
+        <h6 class=" pb-2 mb-0">Мои услуги</h6>
 
         <?php
         $user_id = $_COOKIE["user_id"];

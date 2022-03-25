@@ -11,10 +11,9 @@
 </head>
 <body>
 
-<?php require "blocks/header.php" ?>
-<?php
+<?php require "blocks/header.php";
 $services_name = filter_var(trim($_POST['search']),
-    FILTER_SANITIZE_STRING); ?>
+    FILTER_SANITIZE_STRING);?>
 <div class="container mt-4 d-flex justify-content-around">
     <form action="index.php" method="post" class="container  d-flex justify-content-around">
         <input type="text" class="form-control" name="search" id="search" placeholder="Введите наименование услуги" value="<?= $services_name?>">

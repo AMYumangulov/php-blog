@@ -7,16 +7,16 @@
         </a>
 
         <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-            <a class="me-3 py-2 text-dark text-decoration-none" href="/">Main</a>
-            <a class="me-3 py-2 text-dark text-decoration-none" href="#">Enterprise</a>
-            <a class="me-3 py-2 text-dark text-decoration-none" href="about.php">About</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="../services.php">Мои услуги</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="#">Мои записи</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/">Все услуги</a>
         </nav>
         <?php
         if ($_COOKIE["user"] == ''):
             ?>
             <a class="btn btn-outline-primary" href="../pages/login.php">Войти</a>
         <?php else: ?>
-            <a class="btn btn-outline-primary" href="/auth.php">Кабинет пользователя</a>
+            <a class="btn btn-outline-primary" href="../valid/exit.php">Выйти</a>
         <?php endif; ?>
     </div>
 </div>
