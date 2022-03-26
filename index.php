@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Форма регистрации</title>
+    <title>Services</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -53,7 +53,7 @@ $services_name = filter_var(trim($_POST['search']),
                             <p><?= $service["users_name"] ?></p>
                             <p><?= $service["services_name"] ?></p>
                             <p><?= $service["price"] ?></p>
-                            <form action="/" method="POST">
+                            <form action="pages/signs.php" method="POST">
                                 <div class="d-flex justify-content-around">
                                     <input type="hidden" name="id" value="<?= $service["id"] ?>">
                                     <button class="btn btn-success" type="submit">Записаться</button>
