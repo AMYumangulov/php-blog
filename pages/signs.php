@@ -27,6 +27,13 @@ if ($_COOKIE["user_id"] != '') {
     $query = "SELECT users.name users_name
                     FROM  users 
                       where users.id = '$user_id' ";
+    $query2 = "SELECT TIME_FORMAT(t.mydate, '%H:%i'),
+t.mydate,
+		 TIME_FORMAT(DATE_ADD(t.mydate, INTERVAL 30 MINUTE), '%H:%i')
+from (SELECT
+        DATE('2010/01/01 09:00:00') + INTERVAL(seq * 30) MINUTE AS mydate
+    FROM
+        seq_0_to_10) t";
     $users = $mysqli->query($query);
     $user = $users->fetch_assoc();
     $mysqli->close();
@@ -40,9 +47,9 @@ if ($_COOKIE["user_id"] != '') {
         <div class="col">
             <h1>Форма записи</h1>
             <form action="select_time.php" method="post">
-                <input type="hidden" name="services_id" id="services_id" value="<?=$services_id?>">
+                <input type="hidden" name="services_id" id="services_id" value="<?= $services_id ?>">
                 <input type="text" class="form-control" name="name"
-                       id="name" placeholder="Введите ваше имя" value="<?= $user["users_name"]?>"><br>
+                       id="name" placeholder="Введите ваше имя" value="<?= $user["users_name"] ?>"><br>
                 <input type="phone" class="form-control" name="phone"
                        id="phone" placeholder="Введите номер телефона"><br>
                 <input type="date" class="form-control" name="date"

@@ -24,9 +24,42 @@ if ($_COOKIE["user_id"] != '') {
         exit();
     }
 
+    $query_service_prop = "select (UNIX_TIMESTAMP(services.work_time_to) - UNIX_TIMESTAMP(services.work_time_from)) / 60 as work_time,
+                                      duration 
+                                 from servicves
+                                  and services.id = '$services_id'";
+
+
+    $service_props = $mysqli->query($query_service_prop);
+    $service_prop = $service_props->fetch_assoc();
+
+    $query_interval = "SELECT TIME_FORMAT(t.mydate, '%H:%i'),
+                              TIME_FORMAT( DATE_ADD(t.mydate, INTERVAL 30 MINUTE),'%H:%i' )
+                         FROM (SELECT DATE('2010/01/01') + INTERVAL(9) HOUR + INTERVAL(seq * 30) MINUTE AS mydate
+                                 FROM seq_0_to_10) t";
+
+
+    $query_interval2 = "SELECT * from(SELECT TIME_FORMAT(t.mydate, '%H:%i') t_from,
+                                             TIME_FORMAT(DATE_ADD(t.mydate, INTERVAL 40 MINUTE),'%H:%i') inter
+                                        FROM ( SELECT DATE('2010/01/01') + INTERVAL(9) HOUR + INTERVAL(seq * 40) MINUTE AS mydate
+                                                 FROM seq_0_to_13 ) t
+                                      ) tt
+                         WHERE CONCAT(t_from, inter) NOT IN( SELECT CONCAT(period.t_from, period.inter)
+                                                               FROM ( SELECT TIME_FORMAT(s.date, '%H:%i') t_from,
+                                                                             TIME_FORMAT( DATE_ADD( s.date, 
+                                                                                          INTERVAL(sr.duration) MINUTE ), '%H:%i' ) inter
+                                                                        FROM `signs` AS s 
+                                                                        JOIN `services` AS sr
+                                                                          ON s.service = sr.id
+                                                                       WHERE sr.user = 4 
+                                                                         AND DATE(s.date) = '2022-03-27') period
+                                                           )";
+
+
     $query = "SELECT users.name users_name
                     FROM  users 
                       where users.id = '$user_id' ";
+
     $users = $mysqli->query($query);
     $user = $users->fetch_assoc();
     $mysqli->close();
@@ -39,7 +72,7 @@ if ($_COOKIE["user_id"] != '') {
             <h1>Форма записи</h1>
             <form action="signs.php" method="post">
                 <input type="text" class="form-control" name="name"
-                       id="name" placeholder="Введите ваше имя" value="<?= $user?>"><br>
+                       id="name" placeholder="Введите ваше имя" value="<?= $user ?>"><br>
                 <input type="phone" class="form-control" name="phone"
                        id="phone" placeholder="Введите номер телефона"><br>
                 <input type="date" class="form-control" name="date"
