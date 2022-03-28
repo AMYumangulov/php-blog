@@ -44,7 +44,7 @@ if ($_COOKIE["user_id"] != '') {
                                         FROM ( SELECT DATE('2010/01/01') + INTERVAL(9) HOUR + INTERVAL(seq * 40) MINUTE AS mydate
                                                  FROM seq_0_to_13 ) t
                                       ) tt
-                         WHERE CONCAT(t_from, inter) NOT IN( SELECT CONCAT(period.t_from, period.inter)
+                         WHERE  NOT exists (SELECT 1
                                                                FROM ( SELECT TIME_FORMAT(s.date, '%H:%i') t_from,
                                                                              TIME_FORMAT( DATE_ADD( s.date, 
                                                                                           INTERVAL(sr.duration) MINUTE ), '%H:%i' ) inter
@@ -53,7 +53,12 @@ if ($_COOKIE["user_id"] != '') {
                                                                           ON s.service = sr.id
                                                                        WHERE sr.user = 4 
                                                                          AND DATE(s.date) = '2022-03-27') period
-                                                           )";
+                                                           where 
+                                           					     (tt.t_from >= period.t_from  
+                                           					     and tt.t_from < period.inter)
+                                            					 or (tt.inter > period.t_from  
+                                           					     and tt.inter <= period.inter)
+                                           )";
 
 
     $query = "SELECT users.name users_name
